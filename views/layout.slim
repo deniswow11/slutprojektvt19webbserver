@@ -10,7 +10,10 @@ html lang="en"
         header
             a href="/"
                 h1 Random Forum Clone
-        
+            - if session[:username] != nil && 0
+                form action="/logout" method="POST" id="logout"
+                    article
+                        input value="logout" type="submit"
         main
             div.wrapper
                 == yield

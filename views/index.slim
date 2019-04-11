@@ -1,5 +1,9 @@
 h1 Welcome
-
-a href="/login" Login
-a href="/register" Register
-a href="/forum" Forum
+- if session[:username] != nil && 0
+    h3 #{session[:username]}
+    a href="/forum" Forum
+    a href="/profile" Profile
+-else
+    a href="/login" Login
+    a href="/register" Register
+    a href="/forum" Forum
