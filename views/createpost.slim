@@ -1,0 +1,16 @@
+h2 Create Post
+
+
+form action="/createapost" method="POST"
+    article
+        h3 Thread
+        select name="thread" type="text"
+            option value="general" General
+            option value="technical" Technical
+            option value="Help" Help
+        h3 Title
+        input name="title" placeholder="Title" type="text"
+        h3 Description
+        textarea rows="5" cols="50" name="message"
+        br
+        input value="Submit!" type="submit"

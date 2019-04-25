@@ -1,0 +1,10 @@
+- if session[:username] == nil && 0
+    a href="/login" Login
+    a href="/register" Register
+    
+h2 Forum
+
+- if session[:username] != nil && 0
+    form action="/createapost" method="POST" id="createapost"
+        article
+            input value="Create Post" type="submit"

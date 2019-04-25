@@ -9,6 +9,14 @@ get "/" do
     slim(:index)
 end
 
+get "/forum" do
+    slim(:forum)
+end
+
+get "/createpost" do
+    slim(:createpost)
+end
+
 get "/register" do
     slim(:register)
 end
@@ -58,6 +66,19 @@ post "/create" do
 end
 
 post "/logout" do
-    rake db:sessions:clear
-    redirect("/index")
+    session[:username] = nil
+    redirect("/")
+end
+
+post "/createapost" do
+    db = SQLite3::Database.new('database/database.db')
+    db.results_as_hash = true
+
+    new_thread = params["thread"]
+    new_title = params["title"]
+    new_message =params["message"]
+
+    db.execute("INSERT INTO forumposts (Title,Message,Thread) VALUES(?,?,?)", new_thread, new_title, new_message)
+    db.execute("SELECT forumposts.User_Id, users.Username FROM forumposts INNER JOIN users ON forumposts.User_Id = users.User_Id")
+    redirect("/")
 end
