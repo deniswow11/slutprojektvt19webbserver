@@ -10,7 +10,13 @@ get "/" do
 end
 
 get "/forum" do
-    slim(:forum)
+    db = SQLite3::Database.new("database/database.db")
+    db.results_as_hash = true;
+    
+    allposts = db.execute("SELECT Title,Message,Post_Username From forumposts")
+
+    slim(:forum, locals:{
+        allposts: allposts})
 end
 
 get "/createpost" do
@@ -77,8 +83,15 @@ post "/createapost" do
     new_thread = params["thread"]
     new_title = params["title"]
     new_message =params["message"]
+    post_username = session[:username]
 
-    db.execute("INSERT INTO forumposts (Title,Message,Thread) VALUES(?,?,?)", new_thread, new_title, new_message)
-    db.execute("SELECT forumposts.User_Id, users.Username FROM forumposts INNER JOIN users ON forumposts.User_Id = users.User_Id")
-    redirect("/")
+    db.execute("INSERT INTO forumposts (Title,Message,Thread,Post_Username) VALUES(?,?,?,?)", new_title, new_message, new_thread, post_username)
+    redirect("/forum")
+end
+
+def do
+    db = SQLite3::Database.new('database/database.db')
+    db.results_as_hash = true
+
+    
 end

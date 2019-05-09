@@ -2,6 +2,26 @@ body {
     text-align: center;
 }
 
-#logout {
+.postbox {
+    width: 300px;
+    height: 300px;
+    display:grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "title"
+    "message"
+    "user"
+}
 
+.posttitle {
+    grid-area: title;
+}
+
+.postmessage {
+    grid-area: message;
+}
+
+.postuser {
+    grid-area: user;
 }

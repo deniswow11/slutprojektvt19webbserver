@@ -5,6 +5,16 @@
 h2 Forum
 
 - if session[:username] != nil && 0
-    form action="/createapost" method="POST" id="createapost"
+    form action="/createpost" method="GET"
         article
             input value="Create Post" type="submit"
+
+- allposts.reverse_each do |e| 
+    div class="postbox"
+        div class="posttitle"
+            h3 Title: #{e["Title"]}
+        div class="postmessage"
+            p #{e["Message"]}
+        div class="postuser"
+            p #{e["Post_Username"]}
+        
