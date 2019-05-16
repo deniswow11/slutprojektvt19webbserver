@@ -9,6 +9,10 @@ get "/" do
     slim(:index)
 end
 
+get "/error" do
+    slim(:error)
+end
+
 get "/forum" do
     db = SQLite3::Database.new("database/database.db")
     db.results_as_hash = true;
@@ -20,7 +24,11 @@ get "/forum" do
 end
 
 get "/createpost" do
-    slim(:createpost)
+    if session[:username] != nil
+        slim(:createpost)
+    else
+        redirect("/error")
+    end
 end
 
 get "/register" do
@@ -32,7 +40,11 @@ get "/login" do
 end
 
 get "/profile" do
-    slim(:profile)
+    if session[:username] != nil
+        slim(:profile)
+    else
+        redirect("/error")
+    end
 end
 
 post "/check" do
@@ -46,12 +58,9 @@ post "/check" do
         name.each do |row|
             name = row['Username']
         end
-
-        session[:createlogin] = "login"
         session[:username] = name
         redirect("/profile")
     else 
-        
         redirect("/login")
     end
 end
@@ -87,11 +96,4 @@ post "/createapost" do
 
     db.execute("INSERT INTO forumposts (Title,Message,Thread,Post_Username) VALUES(?,?,?,?)", new_title, new_message, new_thread, post_username)
     redirect("/forum")
-end
-
-def do
-    db = SQLite3::Database.new('database/database.db')
-    db.results_as_hash = true
-
-    
 end
